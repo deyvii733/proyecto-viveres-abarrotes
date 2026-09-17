@@ -1,0 +1,11 @@
+{
+  "name": "Mercado Norte - Caja e inventario",
+  "short_name": "Mercado Norte",
+  "description": "Punto de venta e inventario para tu tienda",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f6f6f1",
+  "theme_color": "#17221d",
+  "lang": "es-CO",
+  "icons": []
+}

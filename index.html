@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#17221d" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <title>Mercado Norte | Caja e inventario</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand"><span class="brand-mark">M</span><span>Mercado<br /><strong>Norte</strong></span></div>
+        <div class="store-status"><span class="status-dot"></span><span>Jornada abierta</span><time id="currentTime"></time></div>
+        <nav class="nav-tabs" aria-label="Navegación principal">
+          <button class="nav-tab active" data-view="pos"><span>▣</span> Punto de venta</button>
+          <button class="nav-tab" data-view="inventory"><span>▤</span> Inventario <b id="lowStockBadge">2</b></button>
+          <button class="nav-tab" data-view="reports"><span>◔</span> Jornada</button>
+        </nav>
+        <div class="sidebar-footer"><span class="avatar">JG</span><div><strong>Juan García</strong><small>Cajero principal</small></div><button class="more-button" aria-label="Más opciones">•••</button></div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar"><div><p class="eyebrow">MIÉRCOLES, 17 DE SEPTIEMBRE</p><h1 id="pageTitle">Punto de venta</h1></div><div class="top-actions"><button class="icon-button" title="Notificaciones">♢<span class="notification-dot"></span></button><button class="help-button">? <span>Ayuda</span></button></div></header>
+
+        <section class="view active" id="posView">
+          <div class="pos-layout">
+            <div class="catalog-panel">
+              <div class="scan-banner"><div class="scan-symbol">⌁</div><div><strong>Escanea un producto</strong><span>Usa la cámara o escribe el código de barras</span></div><button class="camera-button" id="cameraButton">Abrir cámara <span>↗</span></button></div>
+              <div class="search-row"><label class="search-box"><span>⌕</span><input id="productSearch" type="search" placeholder="Buscar por nombre o código..." /><kbd>⌘ K</kbd></label><div class="category-pills" id="categoryPills"></div></div>
+              <div class="section-heading"><div><h2>Productos</h2><span id="productCount">12 productos disponibles</span></div><button class="text-button" id="clearSearch">Limpiar búsqueda</button></div>
+              <div class="product-grid" id="productGrid"></div>
+            </div>
+            <aside class="cart-panel"><div class="cart-heading"><div><span class="eyebrow">ORDEN ACTUAL</span><h2>Venta <span id="saleNumber">#0048</span></h2></div><button class="clear-cart" id="clearCart">Vaciar</button></div><div class="cart-items" id="cartItems"></div><div class="cart-empty" id="cartEmpty"><div class="empty-icon">＋</div><strong>Tu venta está vacía</strong><span>Agrega productos para comenzar</span></div><div class="cart-summary"><div><span>Subtotal</span><strong id="subtotal">$0</strong></div><div><span>Impuestos <small>(0%)</small></span><strong>$0</strong></div><div class="total-line"><span>Total</span><strong id="cartTotal">$0</strong></div><button class="charge-button" id="chargeButton" disabled>Cobrar venta <span>→</span></button></div></aside>
+          </div>
+        </section>
+
+        <section class="view" id="inventoryView"><div class="page-heading"><div><p class="eyebrow">CONTROL DE EXISTENCIAS</p><h2>Inventario</h2><p>Precios de venta calculados con tu porcentaje de margen.</p></div><button class="primary-button" id="addProductButton">＋ Nuevo producto</button></div><div class="inventory-stats"><div><span>Valor del inventario</span><strong id="inventoryValue">$0</strong></div><div><span>Productos activos</span><strong id="activeProducts">12</strong></div><div class="warning-stat"><span>Stock bajo</span><strong id="lowStockCount">2</strong></div></div><div class="table-wrap"><table><thead><tr><th>Producto</th><th>Código</th><th>Stock</th><th>Costo</th><th>Margen</th><th>Precio venta</th><th></th></tr></thead><tbody id="inventoryTable"></tbody></table></div></section>
+
+        <section class="view" id="reportsView"><div class="page-heading"><div><p class="eyebrow">RESUMEN DE ACTIVIDAD</p><h2>Cierre de jornada</h2><p>Un vistazo rápido a cómo marcha tu negocio hoy.</p></div><button class="primary-button" id="closeDayButton">Cerrar jornada</button></div><div class="report-hero"><div><span class="eyebrow">VENTAS DE HOY</span><strong id="dayTotal">$0</strong><span id="saleSummary">0 ventas registradas</span></div><div class="report-figure">▥</div></div><div class="report-grid"><div class="report-card"><span>Ticket promedio</span><strong id="averageTicket">$0</strong><small>Por venta realizada</small></div><div class="report-card"><span>Unidades vendidas</span><strong id="unitsSold">0</strong><small>Productos despachados</small></div><div class="report-card"><span>Margen generado</span><strong id="profitTotal">$0</strong><small>Ganancia estimada</small></div></div><div class="top-products"><div class="section-heading"><div><h2>Productos más vendidos</h2><span>Durante la jornada actual</span></div></div><div id="topProducts"></div></div></section>
+      </main>
+    </div>
+
+    <div class="modal-backdrop" id="paymentModal"><div class="modal payment-modal"><button class="modal-close" data-close="paymentModal">×</button><p class="eyebrow">FINALIZAR VENTA</p><h2>¿Cómo recibes el pago?</h2><div class="pay-total"><span>Total a cobrar</span><strong id="modalTotal">$0</strong></div><label class="field-label">Efectivo recibido<input id="cashReceived" type="number" min="0" step="1000" placeholder="Escribe el valor del billete" /></label><div class="quick-cash" id="quickCash"><button data-cash="exact">Exacto</button><button data-cash="20000">$20.000</button><button data-cash="50000">$50.000</button><button data-cash="100000">$100.000</button></div><div class="change-box"><span>Cambio a entregar</span><strong id="changeAmount">$0</strong></div><button class="charge-button" id="confirmPayment">Confirmar y guardar venta <span>→</span></button></div></div>
+    <div class="modal-backdrop" id="cameraModal"><div class="modal camera-modal"><button class="modal-close" data-close="cameraModal">×</button><p class="eyebrow">LECTOR DE CÓDIGO</p><h2>Escanear producto</h2><div class="camera-stage"><video id="cameraVideo" autoplay playsinline></video><div class="scan-frame"></div><span id="cameraMessage">Apunta al código de barras</span></div><label class="field-label">También puedes escribirlo<input id="barcodeInput" inputmode="numeric" placeholder="Ej. 7701234567890" /></label><button class="secondary-button" id="manualBarcodeButton">Buscar producto</button></div></div>
+    <div class="toast" id="toast"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
