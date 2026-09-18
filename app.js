@@ -34,3 +34,39 @@ $('#cameraButton').addEventListener('click', async () => { $('#cameraModal').cla
 document.addEventListener('change', event => { if (event.target.dataset.margin) { const product = products.find(item => item.id === Number(event.target.dataset.margin)); product.margin = Number(event.target.value) || 0; save(); renderInventory(); renderProducts(); toast(`Margen actualizado para ${product.name}`); } }); $('#closeDayButton').addEventListener('click', () => { if (!sales.length) return toast('No hay ventas para cerrar todavía'); toast(`Jornada cerrada por ${money(sales.reduce((sum, sale) => sum + sale.total, 0))}`); });
 setInterval(() => { $('#currentTime').textContent = new Date().toLocaleTimeString('es-CO', { hour:'2-digit', minute:'2-digit' }); }, 1000); renderAll();
 if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('sw.js');
+
+let editingProductId = null;
+function openProductModal(product) {
+  editingProductId = product ? product.id : null;
+  $('#productModalTitle').textContent = product ? 'Editar producto' : 'Nuevo producto';
+  $('#newProductName').value = product?.name || '';
+  $('#newProductBarcode').value = product?.barcode || '';
+  $('#newProductCategory').value = product?.category || 'Despensa';
+  $('#newProductIcon').value = product?.icon || '🛒';
+  $('#newProductCost').value = product?.cost || '';
+  $('#newProductStock').value = product?.stock ?? '';
+  $('#newProductMargin').value = product?.margin ?? 25;
+  $('#productModal').classList.add('open');
+}
+$('#addProductButton').addEventListener('click', () => openProductModal());
+document.addEventListener('click', event => {
+  const editButton = event.target.closest('[data-edit]');
+  if (editButton) openProductModal(products.find(product => product.id === Number(editButton.dataset.edit)));
+  if (event.target.closest('.help-button')) toast('Usa Punto de venta para cobrar o Inventario para administrar productos');
+  if (event.target.closest('.icon-button')) toast('No tienes notificaciones nuevas');
+  if (event.target.closest('.more-button')) toast('Sesión activa: Juan García');
+});
+$('#saveProductButton').addEventListener('click', () => {
+  const name = $('#newProductName').value.trim();
+  const barcode = $('#newProductBarcode').value.trim();
+  const cost = Number($('#newProductCost').value);
+  const stock = Number($('#newProductStock').value);
+  if (!name || !barcode || !cost || stock < 0) return toast('Completa nombre, código, costo y stock');
+  const data = { name, barcode, category: $('#newProductCategory').value.trim() || 'Despensa', icon: $('#newProductIcon').value.trim() || '🛒', cost, stock, margin: Number($('#newProductMargin').value) || 0 };
+  if (editingProductId) Object.assign(products.find(product => product.id === editingProductId), data);
+  else products.push({ id: Date.now(), ...data });
+  save(); closeModal('productModal'); renderAll(); toast(editingProductId ? 'Producto actualizado' : 'Producto agregado');
+});
+document.addEventListener('keydown', event => {
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); $('#productSearch').focus(); }
+});
