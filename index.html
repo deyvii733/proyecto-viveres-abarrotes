@@ -15,6 +15,18 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <section class="login-screen" id="loginScreen">
+      <div class="login-card">
+        <div class="login-brand"><span class="brand-mark">M</span><span>Mercado<br /><strong>Norte</strong></span></div>
+        <p class="eyebrow">CONTROL DE ACCESO</p>
+        <h1>¿Quién está entrando?</h1>
+        <p class="login-help">Selecciona tu usuario para abrir la caja.</p>
+        <div class="user-list" id="userList"></div>
+        <label class="field-label login-pin-label">PIN de acceso<input id="loginPin" type="password" inputmode="numeric" maxlength="6" placeholder="Escribe tu PIN" /></label>
+        <button class="charge-button" id="loginButton">Entrar a Mercado Norte <span>→</span></button>
+        <p class="login-error" id="loginError"></p>
+      </div>
+    </section>
     <div class="app-shell">
       <aside class="sidebar">
         <div class="brand"><span class="brand-mark">M</span><span>Mercado<br /><strong>Norte</strong></span></div>
@@ -28,7 +40,7 @@
       </aside>
 
       <main class="main-content">
-        <header class="topbar"><div><p class="eyebrow">MIÉRCOLES, 17 DE SEPTIEMBRE</p><h1 id="pageTitle">Punto de venta</h1></div><div class="top-actions"><button class="icon-button" title="Notificaciones">♢<span class="notification-dot"></span></button><button class="help-button">? <span>Ayuda</span></button></div></header>
+        <header class="topbar"><div><p class="eyebrow" id="currentDate">FECHA ACTUAL</p><h1 id="pageTitle">Punto de venta</h1></div><div class="top-actions"><span class="active-user" id="activeUser"></span><button class="icon-button" title="Notificaciones">♢<span class="notification-dot"></span></button><button class="help-button">? <span>Ayuda</span></button></div></header>
 
         <section class="view active" id="posView">
           <div class="pos-layout">
