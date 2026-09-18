@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.mercadonorte.app"
-    compileSdk = 35
+    compileSdkVersion(35)
 
     defaultConfig {
         applicationId = "com.mercadonorte.app"
