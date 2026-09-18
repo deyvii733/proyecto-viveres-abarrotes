@@ -13,9 +13,9 @@ const initialProducts = [
   { id: 12, name: 'Agua botella 600 ml', category: 'Bebidas', barcode: '7701234567801', cost: 1200, margin: 45, stock: 27, icon: '💧' }
 ];
 const users = [
-  { id: 'owner', name: 'María Rodríguez', role: 'Dueña del negocio', pin: '1234', initials: 'MR' },
-  { id: 'cashier-one', name: 'Juan García', role: 'Cajero 1', pin: '1111', initials: 'JG' },
-  { id: 'cashier-two', name: 'Ana López', role: 'Cajera 2', pin: '2222', initials: 'AL' }
+  { id: 'owner', name: 'ANA ANDRADE', role: 'Dueña del negocio', pin: '1065', initials: 'AA' },
+  { id: 'cashier-one', name: 'CESAR JIMENEZ', role: 'Cajero 1', pin: '1067', initials: 'CJ' },
+  { id: 'cashier-two', name: 'SOFIA JIMENEZ', role: 'Cajera 2', pin: '1234', initials: 'SJ' }
 ];
 const money = value => new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(value);
 let products = JSON.parse(localStorage.getItem('market-products')) || initialProducts;
