@@ -54,7 +54,7 @@ function openProductModal(product) {
   $('#newProductMargin').value = product?.margin ?? 25;
   $('#productModal').classList.add('open');
 }
-$('#addProductButton').addEventListener('click', () => openProductModal());
+$('#addProductButton').addEventListener('click', () => { if (selectedUser.id !== 'owner') return toast('Solo ANA ANDRADE puede añadir productos'); openProductModal(); });
 document.addEventListener('click', event => {
   const editButton = event.target.closest('[data-edit]');
   if (editButton) openProductModal(products.find(product => product.id === Number(editButton.dataset.edit)));
@@ -84,7 +84,8 @@ document.addEventListener('keydown', event => {
 });
 
 function renderLoginUsers() { $('#userList').innerHTML = users.map(user => `<button class="user-option" data-user="${user.id}"><span class="user-avatar">${user.initials}</span><span><strong>${user.name}</strong><small>${user.role}</small></span></button>`).join(''); }
-function finishLogin() { $('#loginScreen').style.display = 'none'; $('#activeUser').textContent = `${selectedUser.name} · ${selectedUser.role}`; $('.sidebar-footer strong').textContent = selectedUser.name; $('.sidebar-footer small').textContent = selectedUser.role; toast(`Bienvenido ${selectedUser.name}`); }
+function updatePermissions() { $('#addProductButton').style.display = selectedUser.id === 'owner' ? '' : 'none'; }
+function finishLogin() { $('#loginScreen').style.display = 'none'; $('#activeUser').textContent = `${selectedUser.name} · ${selectedUser.role}`; $('.sidebar-footer strong').textContent = selectedUser.name; $('.sidebar-footer small').textContent = selectedUser.role; updatePermissions(); toast(`Bienvenido ${selectedUser.name}`); }
 renderLoginUsers();
 $('#userList').addEventListener('click', event => { const option = event.target.closest('[data-user]'); if (!option) return; selectedUser = users.find(user => user.id === option.dataset.user); document.querySelectorAll('.user-option').forEach(item => item.classList.remove('selected')); option.classList.add('selected'); $('#loginPin').focus(); });
 $('#loginButton').addEventListener('click', () => { if ($('#loginPin').value !== selectedUser.pin) { $('#loginError').textContent = 'PIN incorrecto. Intenta nuevamente.'; return; } $('#loginError').textContent = ''; finishLogin(); });
